@@ -5,3 +5,4 @@ frontend/.vs/
 backend/.vs/
 frontend/.idea/
 backend/.idea/
+*.pyc

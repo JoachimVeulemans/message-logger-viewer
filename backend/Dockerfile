@@ -1,35 +1,35 @@
-# Let's start from Ubuntu 18.04
+# 1 - Define base image
 FROM ubuntu:18.04
 
-# We love UTF!
-ENV LANG C.UTF-8
+# 2 - Run apt update
+RUN apt-get update 
 
-# Make the container ready to install extra software,
-# update & upgrade it, install Python 3 and clean all archives.
-RUN set -x \
-        && apt-get update \
-        && apt-get upgrade -y \
-        && apt-get install -y ca-certificates sudo \
-        && apt-get install -y git python3.7 \ 
-        && apt-get install -y libsm6 libxext6 libxrender1 libfontconfig1
+# 3 - Run apt upgrade
+RUN apt-get upgrade -y 
 
-RUN apt-get install -y python3-pip \
-        && pip3 install flask \
-        && rm -rf /var/lib/apt/lists/* \
-        && useradd -ms /bin/bash user \
-        && echo "user:user" | chpasswd && adduser user sudo
+# 4 - Install needed packages
+RUN apt-get install apache2 python3 python3-pip -y
 
-USER user
-WORKDIR /home/user
-RUN mkdir app
+# 5 - Remove old libapache2-mod-wsgi
+RUN apt-get -y remove libapache2-mod-wsgi
 
-COPY app app
+# 6 - Install new libapache2-mod-wsgi-py3
+RUN apt-get -y install libapache2-mod-wsgi-py3
 
-# Set some decent colors if the container needs to be accessed via /bin/bash.
-RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> ~/.bashrc \
-&& echo export LS_COLORS >> ~/.bashrc \
-&& touch ~/.sudo_as_admin_successful # To surpress the sudo message at run.
+# 7 - Install packages via pip3
+RUN pip3 install pillow Flask requests flask-cors flask-login
 
-STOPSIGNAL SIGTERM
+# 8 - Copy project files to docker container
+COPY . /var/www/public
 
-CMD /bin/bash
+# 9 - Expose port 80 for endpoint connection
+EXPOSE 80
+
+# 10 - Make files executable in docker container
+RUN chmod a+rwx -R var/www/public
+
+# 11 - Copy apache configuration
+ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
+
+# 12 - Start Apache
+CMD /usr/sbin/apache2ctl -D FOREGROUND
