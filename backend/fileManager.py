@@ -40,3 +40,7 @@ class FileWriter:
         f = open(self.file, "a+")
         f.write(str(line) + "\n")
         f.close()
+
+    def clear(self):
+        f = open(self.file, "w")
+        f.close()

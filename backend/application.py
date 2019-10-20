@@ -24,9 +24,15 @@ def hello():
     return "Logger is up & running!"
 
 
-@app.route("/logs")
+@app.route("/logs", methods=['GET', 'OPTIONS', 'DELETE'])
 def call_get_logs():
-    return jsonify(get_logs())
+    if request.method == "OPTIONS":
+        return _build_cors_prelight_response()
+    if request.method == "GET":
+        return jsonify(get_logs())
+    if request.method == 'DELETE':
+        clear_logs()
+        return _build_cors_actual_response(jsonify({'success': 'true'}))
 
 
 @app.route("/log", methods=['POST', 'OPTIONS'])
@@ -42,6 +48,11 @@ def call_post_log():
 def send_log(log):
     file_writer = FileWriter(path_to_file)
     file_writer.write_line(log)
+
+
+def clear_logs():
+    file_writer = FileWriter(path_to_file)
+    file_writer.clear()
 
 
 def get_logs():
