@@ -15,7 +15,8 @@ CORS(app, supports_credentials=True, resources={
     r"/*": {"origins": ["https://honourlogs.jocawebs.be:443/*"]}})
 
 logging.getLogger('flask_cors').level = logging.DEBUG
-path_to_file = "logs.txt"
+path_to_file = "/var/www/public/logs.txt"
+app.debug = True
 
 
 @app.route("/")
@@ -65,4 +66,6 @@ def _build_cors_actual_response(response):
 
 
 if __name__ == "__main__":
+    file = open(path_to_file, "w+")
+    file.close()
     app.run(debug=True)
