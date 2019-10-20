@@ -8,7 +8,7 @@ import logging
 
 origin = os.getenv('ORIGIN')
 if origin is None:
-    origin = 'http://localhost:4200'
+    origin = 'https://honourlogs.jocawebs.be:443'
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={
