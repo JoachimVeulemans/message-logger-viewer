@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
 
     getLogs(): void {
         this.apiService.getAllLogs().subscribe((value) => {
-            this.logs = value;
+            this.logs = value.reverse();
             this.columns = [];
             this.setColumns();
         }, (error) => {
