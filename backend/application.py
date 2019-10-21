@@ -29,7 +29,7 @@ def call_get_logs():
     if request.method == "OPTIONS":
         return _build_cors_prelight_response()
     if request.method == "GET":
-        return jsonify(get_logs())
+        return _build_cors_actual_response(jsonify(get_logs()))
     if request.method == 'DELETE':
         clear_logs()
         return _build_cors_actual_response(jsonify({'success': 'true'}))
@@ -40,7 +40,6 @@ def call_post_log():
     if request.method == "OPTIONS":
         return _build_cors_prelight_response()
     if request.method == "POST":
-        # Handle POST
         send_log(request.get_json())
         return _build_cors_actual_response(jsonify({'success': 'true'}))
 
