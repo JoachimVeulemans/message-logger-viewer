@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
     refreshTime: number = 5;
     counter: number = 0;
     blinker: HTMLElement;
+    column: number = 0;
 
     constructor(private apiService: ApiService) { }
 
@@ -19,6 +20,28 @@ export class AppComponent implements OnInit {
         this.getLogs();
         this.count();
         this.blinker = document.getElementById('blinker');
+    }
+
+    search() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+      
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[this.column];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
     }
 
     blink(): void {
@@ -46,11 +69,20 @@ export class AppComponent implements OnInit {
         }, 1000);
     }
 
+    setColumn(column: number) {
+        this.column = column;
+        console.log("set column to: " + column);
+        
+    }
+
     getLogs(): void {
         this.apiService.getAllLogs().subscribe((value) => {
             this.logs = value.reverse();
             this.columns = [];
             this.setColumns();
+            setTimeout(() => {
+                this.search();
+            }, 0);
         }, (error) => {
             this.showError(error.message);
         });
