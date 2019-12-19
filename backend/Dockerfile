@@ -29,7 +29,6 @@ EXPOSE 80
 # 10
 RUN mkdir -p /var/www/public/current/
 RUN mkdir -p /var/www/public/deleted/
-RUN touch /var/www/public/current/logs.txt
 
 # 10 - Copy project files to docker container
 COPY . /var/www/public

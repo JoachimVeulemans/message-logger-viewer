@@ -62,4 +62,6 @@ def _build_cors_actual_response(response):
 
 
 if __name__ == "__main__":
+    f = open('/var/www/public/current/logs.txt', 'w')
+    f.close()
     app.run(debug=True)
