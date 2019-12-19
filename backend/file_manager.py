@@ -1,21 +1,17 @@
 import json
 import os
 from flask import jsonify
+from shutil import copyfile
+from datetime import datetime
 
 
-class NotFoundException(Exception):
-    pass
-
-
-class FileReader:
-    def __init__(self, file: str):
-        if os.path.isfile(file):
-            self.file = file
-        else:
-            raise NotFoundException("file was not found")
+class FileManager:
+    def __init__(self, save_file: str, deleted_location):
+        self.save_file = save_file
+        self.deleted_location = deleted_location
 
     def get_json(self):
-        f = open(self.file, 'r')
+        f = open(self.save_file, 'r')
         lines = str(f.readlines())
         f.close()
         lines = lines.replace("\\n", "")
@@ -24,23 +20,17 @@ class FileReader:
         print(lines)
         return json.loads(lines)
 
-
-class FileWriter:
-    def __init__(self, file):
-        if os.path.isfile(file):
-            self.file = file
-        else:
-            raise NotFoundException("file was not found")
-
     def write_lines(self, lines: []):
         for line in lines:
             self.write_line(line)
 
     def write_line(self, line: str):
-        f = open(self.file, "a+")
+        f = open(self.save_file, "a+")
         f.write(str(line) + "\n")
         f.close()
 
     def clear(self):
-        f = open(self.file, "w")
+        dt_string = datetime.now().strftime("-%d-%m-%Y-%H-%M-%S")
+        copyfile(self.save_file, self.deleted_location + "logs" + dt_string + ".txt")
+        f = open(self.save_file, "w")
         f.close()
