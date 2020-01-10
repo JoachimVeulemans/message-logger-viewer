@@ -9,10 +9,10 @@ import { ApiService } from './api.service';
 export class AppComponent implements OnInit {
     logs: any[] = [];
     columns: string[] = [];
-    refreshTime: number = 5;
-    counter: number = 0;
+    refreshTime = 5;
+    counter = 0;
     blinker: HTMLElement;
-    column: number = 0;
+    column = 0;
 
     constructor(private apiService: ApiService) { }
 
@@ -24,30 +24,36 @@ export class AppComponent implements OnInit {
 
     search() {
         // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
+        let input;
+        let filter;
+        let table;
+        let tr;
+        let td;
+        let i;
+        let txtValue;
+        input = document.getElementById('myInput');
         filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-      
+        table = document.getElementById('myTable');
+        tr = table.getElementsByTagName('tr');
+
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[this.column];
+          td = tr[i].getElementsByTagName('td')[this.column];
           if (td) {
             txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
+              tr[i].style.display = '';
             } else {
-              tr[i].style.display = "none";
+              tr[i].style.display = 'none';
             }
           }
         }
     }
 
     blink(): void {
-        this.blinker.style.display = "block";
+        this.blinker.style.display = 'block';
         setTimeout(() => {
-            this.blinker.style.display = "none";
+            this.blinker.style.display = 'none';
         }, 500);
     }
 
@@ -71,8 +77,8 @@ export class AppComponent implements OnInit {
 
     setColumn(column: number) {
         this.column = column;
-        console.log("set column to: " + column);
-        
+        console.log('set column to: ' + column);
+
     }
 
     getLogs(): void {
@@ -89,7 +95,7 @@ export class AppComponent implements OnInit {
     }
 
     setColumns(): void {
-        for(let key in this.logs[0]) {
+        for (const key of Object.keys(this.logs[0])) {
             this.columns.push(key);
         }
     }
@@ -97,22 +103,22 @@ export class AppComponent implements OnInit {
     clearLogs(): void {
         this.apiService.clearAllLogs().subscribe(() => {
             const clear = document.getElementById('clear');
-            clear.innerText = "Cleared!";
+            clear.innerText = 'Cleared!';
             setTimeout(() => {
-                clear.innerText = "Click to clear logs";
+                clear.innerText = 'Click to clear logs';
             }, 2000);
         }, (error) => {
             this.showError(error.message);
-        })
+        });
     }
 
     showError(message: string): void {
         const error = document.getElementById('error');
         error.innerText = message;
-        error.style.display = "block";
+        error.style.display = 'block';
         setTimeout(() => {
-            error.innerText = "";
-            error.style.display = "none";
+            error.innerText = '';
+            error.style.display = 'none';
         }, 5000);
     }
 }
