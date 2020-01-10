@@ -7,18 +7,18 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class ApiService {
-    private _apiURL = environment.apiUrl;
+    private API_URL = environment.apiUrl;
     private optionsWithJSON = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
     constructor(private http: HttpClient) { }
 
     getAllLogs(): Observable<any[]> {
-        const url = `${this._apiURL}/logs`;
+        const url = `${this.API_URL}/logs`;
         return this.http.get<any[]>(url, this.optionsWithJSON);
     }
 
     clearAllLogs(): Observable<any> {
-        const url = `${this._apiURL}/logs`;
+        const url = `${this.API_URL}/logs`;
         return this.http.delete<any>(url, this.optionsWithJSON);
     }
 }
