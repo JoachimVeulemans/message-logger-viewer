@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . /app
 
-ARG configuration=prod
+ARG configuration=development
 
 RUN npm run build -- --${configuration} --output-path=./dist/out
 
