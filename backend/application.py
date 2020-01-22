@@ -6,14 +6,16 @@ from file_manager import FileManager
 from flask_cors import *
 import logging
 
+base_url = 'https://honourlogs.joachimveulemans.be'
+
 origin = os.getenv('ORIGIN')
 if origin is None:
-    origin = 'https://honourlogs.jocawebs.be'
+    origin = base_url
 
 app = Flask(__name__)
 
 CORS(app, supports_credentials=True, resources={
-    r"/*": {"origins": ["https://honourlogs.jocawebs.be:443/*"]}})
+    r"/*": {"origins": [base_url + ":443/*"]}})
 
 logging.getLogger('flask_cors').level = logging.DEBUG
 
