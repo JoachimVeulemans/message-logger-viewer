@@ -1,5 +1,5 @@
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/joachimveulemans/message-logger-viewer)](https://hub.docker.com/r/joachimveulemans/message-logger-viewer/builds)
-[![Docker Automated Status](https://img.shields.io/docker/cloud/automated/joachimveulemans/message-logger-viewer)](https://hub.docker.com/r/joachimveulemans/message-logger-viewer)
+[![Frontend CI Build](https://img.shields.io/azure-devops/build/joachimveulemans/3fbff01b-aee2-4a9f-9e6c-c18be3511772/13?label=Frontend%20CI%20Build)](https://dev.azure.com/JoachimVeulemans/message-logger-viewer/_build?definitionId=13)
+[![Backend CI Build](https://img.shields.io/azure-devops/build/joachimveulemans/3fbff01b-aee2-4a9f-9e6c-c18be3511772/11?label=Backend%20CI%20Build)](https://dev.azure.com/JoachimVeulemans/message-logger-viewer/_build?definitionId=11)
 
 # Message Logger Viewer
 
